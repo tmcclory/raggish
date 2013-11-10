@@ -1,0 +1,24 @@
+<div class="hero-unit">
+  <table>
+    <tr ng-repeat="i in [] | range:16">
+      <td ng-repeat="j in [] | range:21">
+        <div class="square-{{hands[0][j][i]}} right-{{j%2}}" ng-click="switchNote(0,j,i)"></div>
+      </td>
+    </tr>
+  </table>
+  <br/>
+  
+  <table>
+    <tr ng-repeat="i in [] | range:16">
+      <td ng-repeat="j in [] | range:32">
+        <div class="square-{{hands[1][j][i]}}" ng-click="switchNote(1,j,i)"></div>
+      </td>
+    </tr>
+  </table>
+  
+  <center>
+    <img src="assets/img/play.png" height="25" width="25" ng-click="clickPlay()"></img>
+    <img src="assets/img/stop.png" height="25" width="25" ng-click="stop()"></img>
+  </center>
+  
+</div>
