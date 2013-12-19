@@ -61,9 +61,15 @@ angular.module('autoragApp')
         $scope.leftNotes  = [15,12,14,9];
       }
       else{
+        $scope.rightNotes = [8,7,null,null,4,5,null,10,8,6,null,null,12,10,8,6,null,9,5,6,3];
+        $scope.leftNotes  = [15,12,14,9];
+        /* 
+        Need to perform validation first
+
         hands = JSON.parse(localStorage[songName]);
         $scope.rightNotes = hands.rightNotes;
         $scope.leftNotes  = hands.leftNotes;
+        */
       }
     };
     
