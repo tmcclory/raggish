@@ -56,14 +56,14 @@ angular.module('autoragApp')
 
     $scope.load = function() {
       var hands;
-      if(localStorage[songName]) {
+      if( typeof localStorage[songName] === 'undefined' ) {
+        $scope.rightNotes = [15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,2,3,4,5,14,1];
+        $scope.leftNotes  = [15,12,14,9];
+      }
+      else{
         hands = JSON.parse(localStorage[songName]);
         $scope.rightNotes = hands.rightNotes;
         $scope.leftNotes  = hands.leftNotes;
-      }
-      else{
-        $scope.rightNotes = [15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,2,3,4,5,14,1];
-        $scope.leftNotes  = [15,12,14,9];
       }
     };
     
