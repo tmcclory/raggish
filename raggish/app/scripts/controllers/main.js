@@ -57,7 +57,7 @@ angular.module('autoragApp')
     $scope.load = function() {
       var hands;
       if( localStorage[songName] === '{}' ) {
-        $scope.rightNotes = [15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,2,3,4,5,14,1];
+        $scope.rightNotes = [8,7,null,null,4,5,null,10,8,6,null,null,12,10,8,6,null,9,5,6,3];
         $scope.leftNotes  = [15,12,14,9];
       }
       else{
