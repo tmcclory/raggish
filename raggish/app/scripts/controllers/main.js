@@ -1,130 +1,80 @@
+/*
+* main.js
+* This contoller initializes the sampler and coordinates
+* playback. 
+*/
+
+/*jslint browser : true, continue : true,
+devel : true, indent : 2, maxerr : 50,
+newcap : true, nomen : true, plusplus : true,
+regexp : true, sloppy : true, vars : false,
+white : true
+*/
+
+/*global raggish */
+
 'use strict';
 
 angular.module('autoragApp')
   .controller('MainCtrl', function ($scope) {
-    $scope.left_hand = [];
-    $scope.right_hand = [];
-    $scope.hands = []
+    var songName = 'rag';
+
     
-    
-    //initialize hands
-    var i,j,k=0,
-        numBeats = 32, numNotes = 16, player,
-        isPlaying = false, beat=0, tempo = 450,
-        numLeftHandBeats = 21, rightHandBeat=0, 
-        songName = 'rag', leftConfig=[], rightConfig=[],
-        scaleConfig, octave = false;
-    
-    scaleConfig = [0,2,4,5,7,9,11,12,14,16,17,19,21,23,24,26,28,29,31,33,35];
-    for(i=0;i<20;i++) {
-      rightConfig.push(36+scaleConfig[i]);
-      leftConfig.push(24+scaleConfig[i]);
-    }
-    
-    //rightConfig = [0,2,4,5,7,9,11,12,14,16,17,19,21,23,24];
-       
-    //set up right hand
-    $scope.hands.push( [] ); 
-    for(j=0; j<numLeftHandBeats; j++) {
-      $scope.hands[0].push( [] )
-      for(k=0; k<numNotes; k++) {
-        $scope.hands[0][j][k]=false
-      }
-    }
-    
-    //set up left hand
-    $scope.hands.push( [] ) 
-    for(j=0; j<numBeats; j++) {
-      $scope.hands[1].push( [] )
-      for(k=0; k<numNotes; k++) {
-        $scope.hands[1][j][k]=false
-      }
-    }
-    
+    $scope.isLeftOn = function( i, j ) {
+      var isOn = $scope.leftNotes[i] === j;
+      return isOn;
+    };
+
+    $scope.isRightOn = function( i, j ) {
+      return $scope.rightNotes[i] === j;
+    };
     
     $scope.switchNote = function(hand, i,j) {
-      if ($scope.hands[hand][i][j] === true && hand===0) {
-        $scope.hands[hand][i][j] = false;
-      }
-      else {
-        var k = 0; 
-        for(k=0;k<numNotes;k++) {
-            $scope.hands[hand][i][k] = false;
+      switch ( hand ) {
+      case 0:
+        if ( $scope.rightNotes[i] === j) {
+          $scope.rightNotes[i] = null;
         }
-        $scope.hands[hand][i][j] = true;
+        else {
+          $scope.rightNotes[i] = j;
+        }
+        break;
+      case 1:
+        $scope.leftNotes[i] = j;
+        break;
       }
     };
-      
-    $scope.play = function() {
-      var i=0;
-      isPlaying = true;
-              
-      for(i=0;i<16;i+=1) {
-        if((beat)%3==0 || (beat)%3==1) {
-          if($scope.hands[0][rightHandBeat][i] && rightHandBeat%2==0) {
-            if(octave) { 
-              playSample(rightConfig[15-i]+12,.9,.8) 
-              if( i<8 && rightHandBeat%4===0 ){ playSample(rightConfig[15-i-2],.9,.8); }  
-            }
-            else { 
-              playSample(rightConfig[15-i],.9,.8);
-              if( i<8 && rightHandBeat%8===0 ){ playSample(rightConfig[15-i-2],.9,.8); } 
-            }
-                 
-          }
-          else if($scope.hands[0][rightHandBeat][i] && rightHandBeat%2==1) {
-            if(octave) { playSample(rightConfig[15-i]+12,.45,.8)  }
-            else { playSample(rightConfig[15-i],.45,.8)  }
-          }
-        }
-        if($scope.hands[1][beat][i]) {
-          if(beat%2 === 0) {
-            playSample(leftConfig[15-i],.45);
-          }
-          else {
-            playSample(leftConfig[15-i],.45);
-            //playSample(leftConfig[15-i+2],.45);
-            playSample(leftConfig[15-i+7],.45); 
-          }
-        }        
-      }
-      if((beat-1)%3==0 || (beat-1)%3==2) {
-        rightHandBeat=(rightHandBeat+1)%21;
-      }
-      beat=(beat+1)%32
-      if(beat===0) {octave = !octave;}
-      player = setTimeout($scope.play, tempo);
-    };
-    
+  
     $scope.clickPlay = function (){
       $scope.save();
-      if(!isPlaying) {
-        $scope.play();
-      }
-      
+      raggish.startPlay();
     };
     
     $scope.stop = function() {
-      isPlaying = false;
-      clearTimeout(player);
-      beat=0;
-      rightHandBeat=0;
+      raggish.stop();
     };
 
     $scope.load = function() {
-      var defaultString = "[[[false,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false],[false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false],[false,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false],[false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false],[false,false,false,false,false,false,true,false,false,false,false,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],[false,false,false,false,false,false,false,false,true,false,false,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false],[true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],[false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],[true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],[false,false,false,false,false,false,false,true,false,false,false,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],[false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false],[false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,false],[false,false,true,false,false,false,false,false,false,false,false,false,false,false,false,false]],[[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true],[false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true],[false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true],[false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true],[false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true],[false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true],[false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true],[false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true],[false,false,false,false,false,false,false,false,false,false,true,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false],[false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false],[false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false],[false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false],[false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false],[false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false],[false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false],[false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false],[false,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false],[false,false,false,false,false,false,false,false,false,true,false,false,false,false,false,false]]]"
+      var hands;
       if(localStorage[songName]) {
-        $scope.hands = JSON.parse(localStorage[songName]);
+        hands = JSON.parse(localStorage[songName]);
+        $scope.rightNotes = hands.rightNotes;
+        $scope.leftNotes  = hands.leftNotes;
       }
       else{
-        $scope.hands = JSON.parse(defaultString);
+        $scope.rightNotes = [15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,2,3,4,5,14,1];
+        $scope.leftNotes  = [15,12,14,9];
       }
     };
     
     $scope.load();
+    raggish.initModule( $scope.leftNotes, $scope.rightNotes, $scope.updateHighlight);
     
     $scope.save = function() {
-      console.log($scope.hands)
-      localStorage[songName] = JSON.stringify($scope.hands)
-    }
+      var hands = {
+        'leftNotes'  : $scope.leftNotes,
+        'rightNotes' : $scope.rightNotes
+      };
+      localStorage[songName] = JSON.stringify(hands);
+    };
   });

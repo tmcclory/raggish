@@ -65,3 +65,27 @@ IMG.displayed {
 .right-0{
   width: 1.4em;
 }
+
+.left-square-true{
+    background-color:black;
+    border-color:white;
+    border-style:solid;
+    border-width:1px;
+    opacity:1;
+    float:left;
+    height: .55em; 
+    position:relative;
+    width: 6.8em;
+}
+
+.left-square-false{
+    background-color:white;
+    border-color:black;
+    border-style:solid;
+    border-width:1px;
+    opacity:1;
+    float:left;
+    height: .55em; 
+    position:relative;
+    width: 6.8em;
+}
