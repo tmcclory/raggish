@@ -2,7 +2,7 @@
   <table>
     <tr ng-repeat="i in [] | range:16">
       <td ng-repeat="j in [] | range:21">
-        <div class="square-{{ isRightOn(j,i) }} right-{{j%2}}" ng-click="switchNote(0,j,i)"></div>
+        <div class="right-square-{{ isRightOn(j,i) }} right-{{j%2}}" ng-click="switchNote(0,j,i)">.</div>
       </td>
     </tr>
   </table>

@@ -25,12 +25,8 @@ raggish.rightHand = (function () {
 
   initModule = function( notes ) {
     //initialize hands
-    var i,
-     pentScaleConfig, scaleConfig;
+    var i;
 
-    
-    pentScaleConfig = [0,2,4,7,9,12,14,17,19,21,24,26,28,29,31,33,35];
-    scaleConfig = [0,2,4,5,7,9,11,12,14,16,17,19,21,23,24,26,28,29,31,33,35];
     for(i=0; i< configMap.scaleConfig.length ; i++) {
       configMap.scaleConfig[i] += 36;
     }

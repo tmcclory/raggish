@@ -1,8 +1,48 @@
+.right-square-true,
+.right-square-false{
+    border-style:solid;
+    border-width:1px;
+    opacity:1;
+    height: .25em; 
+    width: .25em;
+
+}
+
+.right-square-true{
+    background-color:black;
+    border-color:white;
+}
 
 
-/* Put your CSS here */
-html, body {
+.right-square-false{
+    background-color:white;
+    border-color:black;
+}
 
+.right-0{
+  width: 1.4em;
+}
+
+.left-square-true,
+.left-square-false {
+    border-style:solid;
+    border-width:1px;
+    opacity:1;
+    float:left;
+    height: .55em; 
+    position:relative;
+    width: 6.8em;
+}
+
+.left-square-true{
+    background-color:black;
+    border-color:white;
+
+}
+
+.left-square-false{
+    background-color:white;
+    border-color:black;
 }
 
 body {
@@ -37,55 +77,3 @@ IMG.displayed {
     margin-left: auto;
     margin-right: auto; }
 
-.square-true{
-      background-color:black;
-      border-color:white;
-      border-style:solid;
-    border-width:1px;
-    opacity:1;
-    float:left;
-    height: .55em; 
-    position:relative;
-    width: .55em; 
-}
-
-
-.square-false{
-    background-color:white;
-    border-color:black;
-    border-style:solid;
-    border-width:1px;
-    opacity:1;
-    float:left;
-    height: .55em; 
-    position:relative;
-    width: .55em; 
-}
-
-.right-0{
-  width: 1.4em;
-}
-
-.left-square-true{
-    background-color:black;
-    border-color:white;
-    border-style:solid;
-    border-width:1px;
-    opacity:1;
-    float:left;
-    height: .55em; 
-    position:relative;
-    width: 6.8em;
-}
-
-.left-square-false{
-    background-color:white;
-    border-color:black;
-    border-style:solid;
-    border-width:1px;
-    opacity:1;
-    float:left;
-    height: .55em; 
-    position:relative;
-    width: 6.8em;
-}
